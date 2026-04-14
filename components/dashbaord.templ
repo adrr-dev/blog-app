@@ -1,0 +1,44 @@
+package components
+
+import "github.com/adrr-dev/blog-app/internal/domain"
+
+templ (c Components) Dashboard(user *domain.User) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<script src="https://unpkg.com/htmx.org@2.0.8"></script>
+			<title>Login Page</title>
+		</head>
+		<body>
+			<h1>Dashbaord { user.Username }</h1>
+			<section>
+				<h2>Post</h2>
+				<form hx-post="/post" hx-target="#posts">
+					<label for="post">content:</label>
+					<input type="text" id="post" name="content"/>
+					<button type="submit">post</button>
+				</form>
+			</section>
+			<section id="posts">
+				@c.Posts(user.Posts)
+			</section>
+		</body>
+	</html>
+}
+
+templ (c Components) Posts(posts []domain.Post) {
+	<h2>Posts</h2>
+	<div>
+		for _, post := range posts {
+			<div>{ post.Content }</div>
+			<div>
+				for _, comment := range post.Comments {
+					<p>{ comment.User.Username }</p>
+					<p>{ comment.Content }</p>
+				}
+			</div>
+		}
+	</div>
+}

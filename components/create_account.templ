@@ -1,0 +1,28 @@
+package components
+
+templ (c Components) CreateAccount() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<title>Login Page</title>
+		</head>
+		<body>
+			<div class="logging">
+				<h2>Create Account</h2>
+				<form action="/newaccount" method="POST">
+					<div>
+						<label for="username">Usernam:</label>
+						<input type="text" id="username" name="username" required/>
+					</div>
+					<div>
+						<label for="password">Password:</label>
+						<input type="text" id="password" name="password" required/>
+					</div>
+					<button type="submit">Enter</button>
+				</form>
+			</div>
+		</body>
+	</html>
+}

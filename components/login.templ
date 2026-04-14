@@ -1,0 +1,36 @@
+package components
+
+templ (c Components) Login() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<title>Login Page</title>
+		</head>
+		<body>
+			<div class="logging">
+				<h2>Log in to Account</h2>
+				<form hx- action="/login" method="POST">
+					<div>
+						<label for="username">Usernam:</label>
+						<input type="text" id="username" name="username" required/>
+					</div>
+					<div>
+						<label for="password">Password:</label>
+						<input type="text" id="password" name="password" required/>
+					</div>
+					<button type="submit">Enter</button>
+				</form>
+			</div>
+			<div class="logging">
+				<h3>Create Account</h3>
+				<form action="/createaccount" method="GET">
+					<div>
+						<button type="submit">Create new account</button>
+					</div>
+				</form>
+			</div>
+		</body>
+	</html>
+}
