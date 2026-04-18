@@ -1,6 +1,9 @@
 package components
 
-import "github.com/adrr-dev/blog-app/internal/domain"
+import (
+	"fmt"
+	"github.com/adrr-dev/blog-app/internal/domain"
+)
 
 templ (c Components) Dashboard(user *domain.User) {
 	<!DOCTYPE html>
@@ -9,36 +12,75 @@ templ (c Components) Dashboard(user *domain.User) {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<script src="https://unpkg.com/htmx.org@2.0.8"></script>
+			<link rel="stylesheet" href="/static/style.css"/>
 			<title>Login Page</title>
 		</head>
 		<body>
+			<header>
+				<nav>
+					<ul>
+						<li>
+							<a href="#" hx-target="#main-content" hx-get="/home">Home</a>
+						</li>
+						<li>
+							<a href="#" hx-target="#main-content" hx-get="/feed">Feed</a>
+						</li>
+					</ul>
+				</nav>
+			</header>
 			<h1>Dashbaord { user.Username }</h1>
-			<section>
-				<h2>Post</h2>
-				<form hx-post="/post" hx-target="#posts">
-					<label for="post">content:</label>
-					<input type="text" id="post" name="content"/>
-					<button type="submit">post</button>
-				</form>
-			</section>
-			<section id="posts">
-				@c.Posts(user.Posts)
-			</section>
+			<main id="main-content">
+				@c.Home(user)
+			</main>
 		</body>
 	</html>
 }
 
+templ (c Components) Home(user *domain.User) {
+	<section id="home">
+		<h2>Post</h2>
+		<form hx-post="/post" hx-target="#posts">
+			<label for="post">content:</label>
+			<input type="text" id="post" name="content"/>
+			<button type="submit">post</button>
+		</form>
+	</section>
+	<section id="posts">
+		@c.Posts(user.Posts)
+	</section>
+}
+
 templ (c Components) Posts(posts []domain.Post) {
 	<h2>Posts</h2>
-	<div>
-		for _, post := range posts {
-			<div>{ post.Content }</div>
-			<div>
-				for _, comment := range post.Comments {
+	for _, post := range posts {
+		<article id={ fmt.Sprintf("post-%d", post.ID) }>
+			{ post.Content }
+			for _, comment := range post.Comments {
+				<article>
 					<p>{ comment.User.Username }</p>
 					<p>{ comment.Content }</p>
-				}
-			</div>
+				</article>
+			}
+			<button
+				type="submit"
+				hx-delete="/deletepost"
+				hx-target={ fmt.Sprintf("#post-%d", post.ID) }
+				value={ post.ID }
+				hx-swap="outerHTML"
+				name="id"
+			>Delete Post</button>
+		</article>
+	}
+}
+
+templ (c Components) Feed(posts []domain.Post) {
+	<section id="feed">
+		<h2>Feed</h2>
+		for _, post := range posts {
+			<article>
+				<p>{ post.User.Username }</p>
+				<p>{ post.Content }</p>
+			</article>
 		}
-	</div>
+	</section>
 }

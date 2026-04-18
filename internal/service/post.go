@@ -21,3 +21,20 @@ func (s Service) NewPost(userID uint, content string) error {
 	}
 	return nil
 }
+
+func (s Service) RandomPosts() ([]domain.Post, error) {
+	posts, err := s.repo.RandomPosts()
+	if err != nil {
+		return nil, err
+	}
+
+	return posts, nil
+}
+
+func (s Service) DeletePost(postID, userID uint) error {
+	err := s.repo.DeletePost(postID, userID)
+	if err != nil {
+		return err
+	}
+	return nil
+}

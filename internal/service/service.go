@@ -13,6 +13,8 @@ type Repo interface {
 
 	NewPost(userID uint, content string) error
 	FetchPosts(userID uint) ([]domain.Post, error)
+	RandomPosts() ([]domain.Post, error)
+	DeletePost(postID, userID uint) error
 }
 
 type Service struct {

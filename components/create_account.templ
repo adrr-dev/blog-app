@@ -1,16 +1,18 @@
 package components
 
-templ (c Components) CreateAccount() {
+templ (c Components) CreateAccount(notice string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<link rel="stylesheet" href="/static/style.css"/>
 			<title>Login Page</title>
 		</head>
 		<body>
 			<div class="logging">
 				<h2>Create Account</h2>
+				<h3>{ notice }</h3>
 				<form action="/newaccount" method="POST">
 					<div>
 						<label for="username">Usernam:</label>
